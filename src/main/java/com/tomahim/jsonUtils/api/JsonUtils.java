@@ -1,4 +1,4 @@
-package com.tomahim.geodata.utils.jsonUtil;
+package com.tomahim.jsonUtils.api;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -11,8 +11,12 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
+import com.tomahim.jsonUtils.builders.JsonCompute;
+import com.tomahim.jsonUtils.builders.JsonNode;
+import com.tomahim.jsonUtils.builders.JsonTreeBuilder;
+
 /* API Definition */
-public class JsonUtil {
+public class JsonUtils {
 	
 	final static int DEFAULT_MAX_DEPTH = 1;
 	

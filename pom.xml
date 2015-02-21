@@ -7,7 +7,20 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>json-utils</name>
 	<url>http://maven.apache.org</url>
+	
+	 <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+	
 	<dependencies>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -15,4 +28,23 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<profiles>
+	    <profile>
+	    <id>everything</id>
+	    <build>
+	      <plugins>
+	        <plugin>
+	          <artifactId>maven-jar-plugin</artifactId>
+	          <configuration>
+	            <classifier>everything</classifier>
+	            <includes>
+	              <include>**/*</include>
+	            </includes>
+	          </configuration>
+	        </plugin>
+	      </plugins>
+	    </build>
+	  </profile>
+  </profiles>
 </project>

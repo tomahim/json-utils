@@ -1,5 +1,4 @@
-package com.tomahim.geodata.utils.jsonUtil;
-
+package com.tomahim.jsonUtils.common;
 public class StringUtil {
 
 	final static String DOT = ".";

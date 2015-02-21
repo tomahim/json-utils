@@ -1,5 +1,4 @@
-package com.tomahim.geodata.utils.jsonUtil;
-
+package com.tomahim.jsonUtils.builders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -8,6 +7,8 @@ import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+
+import com.tomahim.jsonUtils.common.*;
 
 public class JsonCompute {	
 	

@@ -1,5 +1,4 @@
-package com.tomahim.geodata.utils.jsonUtil;
-
+package com.tomahim.jsonUtils.common;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
