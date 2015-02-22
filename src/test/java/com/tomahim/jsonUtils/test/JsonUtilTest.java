@@ -68,6 +68,7 @@ public class JsonUtilTest {
 	}
 
 	@Test
+	@Ignore
 	public void testFullJavaObjectToJson() {
 		Person p = new Person();
 		p.setId(1);
