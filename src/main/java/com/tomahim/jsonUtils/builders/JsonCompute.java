@@ -1,6 +1,7 @@
 package com.tomahim.jsonUtils.builders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class JsonCompute {
 	
 	private static String computeAttributeNameFromMethod(Method m) {
 		Class<?> returnType = m.getReturnType();
-		if(ReflectUtil.isPrimiveObject(returnType) || returnType.equals(List.class)) {
+		if(ReflectUtil.isPrimiveObject(returnType) || returnType.equals(List.class) || returnType.equals(Set.class)) {
 			return ReflectUtil.getPropertyFromMethod(m);
 		}
 		return StringUtil.lowercaseFirstLetter(returnType.getSimpleName());
@@ -40,7 +41,7 @@ public class JsonCompute {
 		} else if(maxDepth > 0) {
 			//Avoiding insecure StackOverlow!
 			if(multipleObjectsReturned(method)) {
-				jsonBuilder.add(property, getJsonArrayBuilderFomJavaList((List<?>) method.invoke(o), maxDepth - 1));
+				jsonBuilder.add(property, getJsonArrayBuilderFomJavaList((Collection<?>) method.invoke(o), maxDepth - 1));
 			} else {
 				jsonBuilder.add(property, getJsonObjectBuilderFromJavaObject(method.invoke(o), maxDepth - 1));					
 			}				
@@ -60,9 +61,9 @@ public class JsonCompute {
 		return jsonBuilder;
 	}
 	
-	public static JsonArrayBuilder getJsonArrayBuilderFomJavaList(List<?> list, int maxDepth) {
+	public static JsonArrayBuilder getJsonArrayBuilderFomJavaList(Collection<?> collection, int maxDepth) {
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-	    for(Object o : list) {
+	    for(Object o : collection) {
 	        try {
 				jsonArrayBuilder.add(getJsonObjectBuilderFromJavaObject(o, maxDepth));
 			} catch (IllegalAccessException | IllegalArgumentException
@@ -73,9 +74,9 @@ public class JsonCompute {
 	    return jsonArrayBuilder;
 	}
 	
-	private static JsonArrayBuilder resolveArrayValuePath(JsonArrayBuilder jsonArrayBuilder, List<?> list, String key, String valuePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonArrayBuilder resolveArrayValuePath(JsonArrayBuilder jsonArrayBuilder, Collection<?> collection, String key, String valuePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		JsonArrayBuilder jsonB = (jsonArrayBuilder != null) ? jsonArrayBuilder : Json.createArrayBuilder();
-	    for(Object o : list) {
+	    for(Object o : collection) {
 	        try {
 	        	jsonB.add(resolveValuePath(Json.createObjectBuilder(), o, key, valuePath));
 			} catch (IllegalAccessException | IllegalArgumentException
@@ -97,8 +98,7 @@ public class JsonCompute {
 					if(!multipleObjectsReturned(method)) { //Simple object to parse
 						resolveValuePath(jsonBuilder, method.invoke(object), key, nextValue);
 					} else {  //Collection of objects
-						//TODO : make it compatible not only for List (Collection interface ?)
-						jsonBuilder.add(key, resolveArrayValuePath(null, (List<?>) method.invoke(object), key, nextValue));
+						jsonBuilder.add(key, resolveArrayValuePath(null, (Collection<?>) method.invoke(object), key, nextValue));
 					}
 				}
 			} else {

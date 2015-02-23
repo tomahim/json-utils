@@ -1,8 +1,8 @@
 package com.tomahim.jsonUtils.api;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,25 +34,26 @@ public class JsonUtils {
 		return null;
 	}
 	
-	public static JsonArray toJsonArray(List<?> list, int maxDepth) {
-	    return JsonCompute.getJsonArrayBuilderFomJavaList(list, maxDepth).build();
+	public static JsonArray toJsonArray(Collection<?> collection, int maxDepth) {
+	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, maxDepth).build();
 	}
 
 	public static JsonObject toJson(Object object) {
 		return toJson(object, DEFAULT_MAX_DEPTH);
 	}
 	
-	public static JsonArray toJsonArray(List<?> list) {
-	    return JsonCompute.getJsonArrayBuilderFomJavaList(list, DEFAULT_MAX_DEPTH).build();
+	public static JsonArray toJsonArray(Collection<?> collection) {
+		System.out.println("constructing json");
+	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, DEFAULT_MAX_DEPTH).build();
 	}
 	
 	/*
 	 * Using map selection
 	 */
 	
-	private static JsonArray toJsonArrayFromMap(List<?> list, Map<String, String> map) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonArray toJsonArrayFromMap(Collection<?> collection, Map<String, String> map) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-	    for(Object o : list) {	        
+	    for(Object o : collection) {	        
 			jsonArrayBuilder.add(toJsonFromMap(o, map));
 	    }
 	    return jsonArrayBuilder.build();
@@ -74,9 +75,9 @@ public class JsonUtils {
 		return null;
 	}
 	
-	public static JsonArray toJsonArray(List<?> list, Map<String, String> selection) {
+	public static JsonArray toJsonArray(Collection<?> collection, Map<String, String> selection) {
 		try {
-		return toJsonArrayFromMap(list, selection);
+		return toJsonArrayFromMap(collection, selection);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
@@ -109,10 +110,10 @@ public class JsonUtils {
 		return null;
 	}
 	
-	public static JsonArray toJsonArray(List<?> list, Set<String> attributes) {
+	public static JsonArray toJsonArray(Collection<?> collection, Set<String> attributes) {
 		Map<String, String> map  = transformSetToMap(attributes);
 		try {
-			return toJsonArrayFromMap(list, map);
+			return toJsonArrayFromMap(collection, map);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
@@ -149,10 +150,10 @@ public class JsonUtils {
 		return null;
 	}
 
-	public static JsonArray toJsonArray(List<?> list, String... attributes) {
+	public static JsonArray toJsonArray(Collection<?> collection, String... attributes) {
 		Map<String, String> map  = transformVarargsToMap(attributes);
 		try {
-			return toJsonArrayFromMap(list, map);
+			return toJsonArrayFromMap(collection, map);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
