@@ -11,6 +11,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
 import com.tomahim.jsonUtils.common.*;
+import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
+import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
 public class JsonCompute {	
 	
@@ -46,8 +48,12 @@ public class JsonCompute {
 				jsonObjectBuilder.add(name, (Integer) method.invoke(o));
 			break;
 			case "Date" :
-				Date date = (Date) method.invoke(o);
-				jsonObjectBuilder.add(name, date.getTime());
+				if(JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT).equals("timestamp")) {
+					Date date = (Date) method.invoke(o);
+					jsonObjectBuilder.add(name, date.getTime());	
+				} else {
+					//TODO : throw custom exception if settings value is incorrect
+				}
 			break;
 			case "String":
 			default:
