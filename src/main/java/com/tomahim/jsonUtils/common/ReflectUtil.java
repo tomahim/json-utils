@@ -3,6 +3,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class ReflectUtil {
         ret.add(Boolean.class);
         ret.add(Character.class);
         ret.add(Byte.class);
+        ret.add(Date.class);
         ret.add(Short.class);
         ret.add(Integer.class);
         ret.add(Long.class);

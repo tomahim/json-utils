@@ -1,5 +1,12 @@
 # json-utils
-Json utility java classes for Json-binding 
+Json utility java classes for Json-binding.
+
+Experimental work, no stable realease yet.
+
+#### Todo
+
+- Configuration for Date format (timestamp is default for now)
+- Be sure to keep initial primary type of value when converting to Json
 
 #### Usefull resources 
 

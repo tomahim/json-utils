@@ -2,6 +2,7 @@ package com.tomahim.jsonUtils.builders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -34,10 +35,31 @@ public class JsonCompute {
 		return returnType.equals(List.class) || returnType.equals(Set.class);
 	}
 	
-	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth, String propertyName) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		String returnTypeName = method.getReturnType().getSimpleName();
+		System.out.println(name + " ::: " + returnTypeName);
+		switch (returnTypeName) {
+			case "Boolean":
+				jsonObjectBuilder.add(name, (Boolean) method.invoke(o));
+			break;
+			case "Integer" :
+				jsonObjectBuilder.add(name, (Integer) method.invoke(o));
+			break;
+			case "Date" :
+				Date date = (Date) method.invoke(o);
+				jsonObjectBuilder.add(name, date.getTime());
+			break;
+			case "String":
+			default:
+				jsonObjectBuilder.add(name, String.valueOf(method.invoke(o)));
+			break;
+		}
+	}
+	
+	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth, String propertyName) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {		
 		String property = propertyName != null ? propertyName : computeAttributeNameFromMethod(method);
 		if(!needRecusivity(method)) {
-			jsonBuilder.add(property, String.valueOf(method.invoke(o)));				
+			addKeyValue(jsonBuilder, o, property, method);
 		} else if(maxDepth > 0) {
 			//Avoiding insecure StackOverlow!
 			if(multipleObjectsReturned(method)) {

@@ -1,0 +1,84 @@
+package com.tomahim.jsonUtils.entities;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Person {
+		private Integer id;
+		
+		private String name;
+		
+		private Date birthDate;
+		
+		private String privateInfo = "It shouldn't be read! Private stuff!";
+		
+		private Boolean isMale;
+		
+		private List<Person> friends;
+		
+		private Set<Person> uncles;
+
+		public Person() {
+			this.friends = new ArrayList<Person>();
+			this.uncles = new HashSet<Person>();
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public Date getBirthDate() {
+			return birthDate;
+		}
+
+		public void setBirthDate(Date birthDate) {
+			this.birthDate = birthDate;
+		}
+
+		public Boolean getIsMale() {
+			return isMale;
+		}
+
+		public void setIsMale(Boolean isMale) {
+			this.isMale = isMale;
+		}
+
+		public List<Person> getFriends() {
+			return friends;
+		}
+
+		public void setFriends(List<Person> friends) {
+			this.friends = friends;
+		}		
+		
+		public void addFriend(Person friend) {
+			this.friends.add(friend);
+		}
+		
+		public Set<Person> getUncles() {
+			return uncles;
+		}
+
+		public void setUncles(Set<Person> uncles) {
+			this.uncles = uncles;
+		}
+		
+		public void addUncle(Person uncle) {
+			this.uncles.add(uncle);
+		}
+	}
