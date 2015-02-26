@@ -1,24 +1,21 @@
 package com.tomahim.jsonUtils.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.tomahim.jsonUtils.api.JsonUtils;
 import com.tomahim.jsonUtils.entities.Person;
 import com.tomahim.jsonUtils.entities.PersonGenerator;
 
-public class JsonUtilTest {
+public class JsonUtilFullObjectBuilder {
 	
 	public PersonGenerator personGenerator;
 	
@@ -40,7 +37,6 @@ public class JsonUtilTest {
 		assertTrue(jsonObject.containsKey("isMale"));
 	
 		assertFalse(jsonObject.containsKey("privateInfo"));
-		assertFalse(jsonObject.containsKey("name2"));
 		
 		/* Values verifications */
 		assertEquals(jsonObject.getInt("id"), p.getId().intValue());
@@ -50,16 +46,4 @@ public class JsonUtilTest {
 		
 		assertNotNull(jsonObject);
 	}
-	
-	@Test
-	public void testJsonContructionDepth1() {
-		Person p1 = personGenerator.createPerson(1, 2);
-		
-		JsonObject jsonObject = JsonUtils.toJson(p1, 1);
-		
-		assertTrue(jsonObject.containsKey("friends"));		
-		assertTrue(jsonObject.get("friends").getValueType().equals(ValueType.ARRAY));
-		assertTrue(jsonObject.get("uncles").getValueType().equals(ValueType.ARRAY));
-	}
-	
 }

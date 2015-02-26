@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Person {
+public class Person implements Cloneable {
+	
 		private Integer id;
 		
 		private String name;
@@ -80,5 +81,15 @@ public class Person {
 		
 		public void addUncle(Person uncle) {
 			this.uncles.add(uncle);
+		}
+		
+		public Object clone() {
+			Object o = null;
+			try {
+				o = super.clone();
+			} catch(CloneNotSupportedException cnse) {
+				cnse.printStackTrace(System.err);
+			}
+			return o;
 		}
 	}

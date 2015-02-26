@@ -39,7 +39,6 @@ public class JsonCompute {
 	
 	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String returnTypeName = method.getReturnType().getSimpleName();
-		System.out.println(name + " ::: " + returnTypeName);
 		switch (returnTypeName) {
 			case "Boolean":
 				jsonObjectBuilder.add(name, (Boolean) method.invoke(o));
