@@ -14,11 +14,11 @@ import javax.json.JsonObject;
 import com.tomahim.jsonUtils.builders.JsonCompute;
 import com.tomahim.jsonUtils.builders.JsonNode;
 import com.tomahim.jsonUtils.builders.JsonTreeBuilder;
+import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
+import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
 /* API Definition */
 public class JsonUtils {
-	
-	final static int DEFAULT_MAX_DEPTH = 1;
 	
 	/*
 	 * Getting all fields with getter methods 
@@ -39,12 +39,12 @@ public class JsonUtils {
 	}
 
 	public static JsonObject toJson(Object object) {
-		return toJson(object, DEFAULT_MAX_DEPTH);
+		return toJson(object, (int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL));
 	}
 	
 	public static JsonArray toJsonArray(Collection<?> collection) {
 		System.out.println("constructing json");
-	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, DEFAULT_MAX_DEPTH).build();
+	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, (int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL)).build();
 	}
 	
 	/*
