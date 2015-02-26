@@ -130,7 +130,7 @@ public class JsonCompute {
 				}
 			} else {
 				if(propertyName.equals(valuePath)) {
-					addToJsonBuilderMethod(jsonBuilder, object, method, 0, key);					
+					addToJsonBuilderMethod(jsonBuilder, object, method, multipleObjectsReturned(method) ? 1 : 0, key);					
 				}				
 			}			
 		}

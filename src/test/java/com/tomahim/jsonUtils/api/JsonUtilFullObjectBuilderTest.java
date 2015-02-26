@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.tomahim.jsonUtils.entities.Person;
 import com.tomahim.jsonUtils.entities.PersonGenerator;
 
-public class JsonUtilFullObjectBuilder {
+public class JsonUtilFullObjectBuilderTest {
 	
 	public PersonGenerator personGenerator;
 	
@@ -35,6 +35,7 @@ public class JsonUtilFullObjectBuilder {
 		assertTrue(jsonObject.containsKey("id"));
 		assertTrue(jsonObject.containsKey("name"));
 		assertTrue(jsonObject.containsKey("isMale"));
+		assertTrue(jsonObject.containsKey("birthDate"));
 	
 		assertFalse(jsonObject.containsKey("privateInfo"));
 		
