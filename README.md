@@ -8,6 +8,7 @@ Experimental work, no stable realease yet.
 ##### In progress
 
 - Be sure to keep initial primary type of value when converting to Json
+- Unit test and better handle of deep field selection with varargs and Map
 
 ##### New features / Ideas
 
