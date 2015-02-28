@@ -40,12 +40,7 @@ public class JsonUtilVarargsTest {
 	private void testCompleteJsonObject(JsonObject jsonObject) {
 
 		//It should contain all these keys
-		assertTrue(jsonObject.containsKey("id"));
-		assertTrue(jsonObject.containsKey("name"));
-		assertTrue(jsonObject.containsKey("isMale"));
-		assertTrue(jsonObject.containsKey("birthDate"));
-		assertTrue(jsonObject.containsKey("friends"));
-		assertTrue(jsonObject.containsKey("uncles"));
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "friends", "uncles"));	
 	
 		//It should be the good values
 		assertTrue(jsonObject.getInt("id") == 1);
@@ -77,9 +72,7 @@ public class JsonUtilVarargsTest {
 	private void testPartOfJsonObject(JsonObject jsonObject) {
 
 		//It should contain all these keys
-		assertTrue(jsonObject.containsKey("name"));
-		assertTrue(jsonObject.containsKey("birthDate"));
-		assertTrue(jsonObject.containsKey("friends"));
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "name", "birthDate", "friends"));	
 
 		//It should be the good values
 		assertEquals("Tata", jsonObject.getString("name"));
@@ -87,9 +80,7 @@ public class JsonUtilVarargsTest {
 		assertTrue(jsonObject.getJsonArray("friends").size() == 2);
 		
 		//It shouldn't contain other properties from java object
-		assertFalse(jsonObject.containsKey("id"));
-		assertFalse(jsonObject.containsKey("isMale"));
-		assertFalse(jsonObject.containsKey("uncles"));
+		assertFalse(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "isMale", "uncles"));	
 	}
 	
 	@Test

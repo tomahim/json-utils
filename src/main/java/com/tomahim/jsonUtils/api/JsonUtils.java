@@ -43,7 +43,6 @@ public class JsonUtils {
 	}
 	
 	public static JsonArray toJsonArray(Collection<?> collection) {
-		System.out.println("constructing json");
 	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, (int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL)).build();
 	}
 	

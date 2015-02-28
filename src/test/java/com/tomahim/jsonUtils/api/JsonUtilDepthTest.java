@@ -63,15 +63,10 @@ public class JsonUtilDepthTest {
 		JsonObject jsonObject = JsonUtils.toJson(depth1, 0);
 		
 		//It should contain deep level 0 data
-		assertTrue(jsonObject.containsKey("name"));
-		assertTrue(jsonObject.containsKey("birthDate"));
-		assertTrue(jsonObject.containsKey("id"));
-		assertTrue(jsonObject.containsKey("isMale"));	
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate"));	
 		
 		//It shouldn't contain deep level 1 data
-		assertFalse(jsonObject.containsKey("friends"));
-		assertFalse(jsonObject.containsKey("uncles"));
-		
+		assertFalse(CommonTestMethods.jsonObjectContainKeys(jsonObject, "friends", "uncles"));
 	}
 	
 	@Test

@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -26,28 +28,30 @@ public class JsonUtilFullObjectBuilderTest {
 	
 	Date birthDate;
 	
-	List<Person> persons;
+	List<Person> personsList;
+	
+	Set<Person> personsSet;
 	
 	@Before
 	public void init() {
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
 		p = personGenerator.createPerson(1, "Toto", true, birthDate, 0, 0);
-		persons = new ArrayList<Person>();
-		persons.add(p);
-		persons.add(p);
-		persons.add(p);
+		personsList = new ArrayList<Person>();
+		personsList.add(p);
+		personsList.add(p);
+		personsList.add(p);
+		
+		personsSet = new HashSet<Person>();
+		personsSet.add(p);
+		personsSet.add((Person) p.clone());
 	}
 	
 	private void testFullObjectContent(JsonObject jsonObject) {
 		assertNotNull(jsonObject);
 		
 		/* Key verification */
-		assertTrue(jsonObject.containsKey("id"));
-		assertTrue(jsonObject.containsKey("name"));
-		assertTrue(jsonObject.containsKey("isMale"));
-		assertTrue(jsonObject.containsKey("birthDate"));
-	
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate"));	
 		assertFalse(jsonObject.containsKey("privateInfo"));
 		
 		/* Values verifications */
@@ -64,9 +68,18 @@ public class JsonUtilFullObjectBuilderTest {
 	}
 	
 	@Test
-	public void testArrayFullObjectToJson() {
-		JsonArray jsonArray = JsonUtils.toJsonArray(persons);
+	public void testListOfFullObjectToJson() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(personsList);
 		assertTrue(jsonArray.size() == 3);
+		for(int i = 0; i < jsonArray.size(); i++) {
+			testFullObjectContent(jsonArray.getJsonObject(i));			
+		}
+	}
+	
+	@Test
+	public void testSetOfFullObjectToJson() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(personsSet);
+		assertTrue(jsonArray.size() == 2);
 		for(int i = 0; i < jsonArray.size(); i++) {
 			testFullObjectContent(jsonArray.getJsonObject(i));			
 		}
