@@ -1,6 +1,7 @@
 package com.tomahim.jsonUtils.builders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -47,11 +48,16 @@ public class JsonCompute {
 				jsonObjectBuilder.add(name, (Integer) method.invoke(o));
 			break;
 			case "Date" :
-				if(JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT).equals("timestamp")) {
-					Date date = (Date) method.invoke(o);
+				String dateFormat = (String) JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT);
+				if(dateFormat == null) {
+					//TODO : throw custom exception if settings value is incorrect
+				}
+				Date date = (Date) method.invoke(o);
+				if(dateFormat.equals(JsonUtilsSettings.DEFAULT_DATE_FORMAT)) { //We expect timestamp for default
 					jsonObjectBuilder.add(name, date.getTime());	
 				} else {
-					//TODO : throw custom exception if settings value is incorrect
+					SimpleDateFormat dt = new SimpleDateFormat(dateFormat);
+					jsonObjectBuilder.add(name, dt.format(date));					
 				}
 			break;
 			case "String":

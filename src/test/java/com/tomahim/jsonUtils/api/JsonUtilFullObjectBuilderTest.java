@@ -17,6 +17,7 @@ import javax.json.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.entities.Person;
 import com.tomahim.jsonUtils.entities.PersonGenerator;
 
@@ -34,6 +35,9 @@ public class JsonUtilFullObjectBuilderTest {
 	
 	@Before
 	public void init() {
+		
+		JsonUtilsSettings.resetSettings();
+		
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
 		p = personGenerator.createPerson(1, "Toto", true, birthDate, 0, 0);

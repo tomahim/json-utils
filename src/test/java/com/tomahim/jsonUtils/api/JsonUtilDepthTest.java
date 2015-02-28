@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tomahim.jsonUtils.api.JsonUtils;
+import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.entities.Person;
 import com.tomahim.jsonUtils.entities.PersonGenerator;
 
@@ -33,6 +34,8 @@ public class JsonUtilDepthTest {
 	
 	@Before
 	public void initData() {
+		JsonUtilsSettings.resetSettings();
+		
 		personGenerator = new PersonGenerator();
 		
 		depth1 = personGenerator.createPerson(1, 2);

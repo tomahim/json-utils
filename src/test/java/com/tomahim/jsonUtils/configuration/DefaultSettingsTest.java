@@ -12,7 +12,7 @@ import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.entities.Person;
 import com.tomahim.jsonUtils.entities.PersonGenerator;
 
-public class ConfigTest {
+public class DefaultSettingsTest {
 
 	PersonGenerator personGenerator;
 	
@@ -20,6 +20,7 @@ public class ConfigTest {
 	
 	@Before
 	public void init() {
+		JsonUtilsSettings.resetSettings();
 		personGenerator = new PersonGenerator();
 		
 		depth2 = personGenerator.createPerson(1, 2);
@@ -33,16 +34,15 @@ public class ConfigTest {
 	@Test
 	public void defaultAreSet() {
 		assertNotNull(JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT));
-		assertTrue(JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT).equals("timestamp"));
+		assertTrue(JsonUtilsSettings.value(SettingsEnum.DATE_FORMAT).equals(JsonUtilsSettings.DEFAULT_DATE_FORMAT));
 		
 		assertNotNull(JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL));
-		assertTrue(JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL).equals(new Integer(1)));
+		assertTrue(JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL).equals(new Integer(JsonUtilsSettings.DEFAULT_MAX_DEPTH)));
 	}
 	
 	@Test
 	public void defaultDateFormatIsUsed() {
 		Person p = personGenerator.createPerson();
-		
 		JsonObject jsonObj = JsonUtils.toJson(p);
 
 		assertNotNull(jsonObj.getInt("birthDate"));

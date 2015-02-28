@@ -35,6 +35,10 @@ public class PersonGenerator {
 	public Person createPerson(String name) {
 		return createPerson(randomInt(0, 999), name, randomBoolean(), randomDate(), 0, 0);
 	}
+
+	public Person createPerson(Date birthDate) {
+		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), birthDate, 0, 0);
+	}
 	
 	public Person createPerson(int nbFriends, int nbUncles) {
 		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), nbFriends, nbUncles);
