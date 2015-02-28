@@ -1,6 +1,8 @@
 package com.tomahim.jsonUtils.builders;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -41,9 +43,41 @@ public class JsonCompute {
 	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String returnTypeName = method.getReturnType().getSimpleName();
 		switch (returnTypeName) {
-			case "Boolean":
+			case "boolean" :
+			case "Boolean" :
 				jsonObjectBuilder.add(name, (Boolean) method.invoke(o));
 			break;
+			case "BigDecimal" :
+				jsonObjectBuilder.add(name, (BigDecimal) method.invoke(o));
+			break;
+			case "BigInteger" :
+				jsonObjectBuilder.add(name, (BigInteger) method.invoke(o));
+			break;
+			case "float" :
+			case "Float" :
+				jsonObjectBuilder.add(name, (Float) method.invoke(o));
+			break;
+			case "char" :
+			case "Character" :
+				jsonObjectBuilder.add(name, (Character) method.invoke(o));
+			break;
+			case "byte" :
+			case "Byte" :
+				jsonObjectBuilder.add(name, (Byte) method.invoke(o));
+			break;
+			case "short" :
+			case "Short" :
+				jsonObjectBuilder.add(name, (Short) method.invoke(o));
+			break;
+			case "double" :
+			case "Double" :
+				jsonObjectBuilder.add(name, (Double) method.invoke(o));
+			break;
+			case "long" :
+			case "Long" :
+				jsonObjectBuilder.add(name, (Long) method.invoke(o));
+			break;
+			case "int" :
 			case "Integer" :
 				jsonObjectBuilder.add(name, (Integer) method.invoke(o));
 			break;

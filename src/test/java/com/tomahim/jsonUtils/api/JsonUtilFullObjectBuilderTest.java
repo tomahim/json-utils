@@ -40,7 +40,7 @@ public class JsonUtilFullObjectBuilderTest {
 		
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
-		p = personGenerator.createPerson(1, "Toto", true, birthDate, 0, 0);
+		p = personGenerator.createPerson(1, "Toto", true, birthDate, 0, 0, 2);
 		personsList = new ArrayList<Person>();
 		personsList.add(p);
 		personsList.add(p);
@@ -59,10 +59,11 @@ public class JsonUtilFullObjectBuilderTest {
 		assertFalse(jsonObject.containsKey("privateInfo"));
 		
 		/* Values verifications */
-		assertEquals(jsonObject.getInt("id"), p.getId().intValue());
+		assertEquals(p.getId().intValue(), jsonObject.getInt("id"));
 		assertEquals(jsonObject.getString("name"), p.getName());
 		assertTrue(jsonObject.getBoolean("isMale"));
 		assertEquals(jsonObject.getJsonNumber("birthDate").longValue(), birthDate.getTime());
+		assertEquals(p.getNbSisters(), jsonObject.getInt("nbSisters"));
 	}
 
 	@Test

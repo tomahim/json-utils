@@ -21,6 +21,8 @@ public class Person implements Cloneable {
 		private List<Person> friends;
 		
 		private Set<Person> uncles;
+		
+		private int nbSisters;
 
 		public Person() {
 			this.friends = new ArrayList<Person>();
@@ -83,6 +85,14 @@ public class Person implements Cloneable {
 			this.uncles.add(uncle);
 		}
 		
+		public int getNbSisters() {
+			return nbSisters;
+		}
+
+		public void setNbSisters(int nbSisters) {
+			this.nbSisters = nbSisters;
+		}
+
 		public Object clone() {
 			Object o = null;
 			try {

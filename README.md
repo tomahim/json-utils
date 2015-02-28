@@ -7,7 +7,6 @@ Experimental work, no stable realease yet.
 
 ##### In progress
 
-- Refactor (replace ?) JsonNode class with a Set<Entry<String, String>>
 - Be sure to keep initial primary type of value when converting to Json
 
 ##### New features / Ideas

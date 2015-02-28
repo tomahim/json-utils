@@ -32,7 +32,7 @@ public class JsonUtilVarargsTest {
 		JsonUtilsSettings.resetSettings();
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
-		p1 = personGenerator.createPerson(1, "Tata", false, birthDate, 2, 1);
+		p1 = personGenerator.createPerson(1, "Tata", false, birthDate, 2, 1, 2);
 		persons = new ArrayList<Person>();
 		persons.add(p1);
 		persons.add(p1);
@@ -42,7 +42,7 @@ public class JsonUtilVarargsTest {
 	private void testCompleteJsonObject(JsonObject jsonObject) {
 
 		//It should contain all these keys
-		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "friends", "uncles"));	
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters"));	
 	
 		//It should be the good values
 		assertTrue(jsonObject.getInt("id") == 1);
@@ -51,6 +51,7 @@ public class JsonUtilVarargsTest {
 		assertEquals(birthDate.getTime(), jsonObject.getJsonNumber("birthDate").longValue());
 		assertTrue(jsonObject.getJsonArray("friends").size() == 2);
 		assertTrue(jsonObject.getJsonArray("uncles").size() == 1);
+		assertTrue(jsonObject.getInt("nbSisters") == 2);
 		
 		//It shouldn't contain other properties from java object
 		assertFalse(jsonObject.containsKey("class"));
@@ -58,13 +59,13 @@ public class JsonUtilVarargsTest {
 	
 	@Test
 	public void buildingCompleteJsonFromVarargs() {		
-		JsonObject jsonObject = JsonUtils.toJson(p1, "id", "name", "isMale", "birthDate", "friends", "uncles");
+		JsonObject jsonObject = JsonUtils.toJson(p1, "id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters");
 		testCompleteJsonObject(jsonObject);		
 	}
 	
 	@Test
 	public void buildingArrayFromCompleteJsonVarargs() {
-		JsonArray jsonArray = JsonUtils.toJsonArray(persons, "id", "name", "isMale", "birthDate", "friends", "uncles");
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, "id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters");
 		assertTrue(jsonArray.size() == 3);
 		for(int i = 0; i < jsonArray.size(); i++) {
 			testCompleteJsonObject(jsonArray.getJsonObject(i));
