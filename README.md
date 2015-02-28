@@ -11,8 +11,6 @@ Experimental work, no stable realease yet.
 
 ##### New features / Ideas
 
-- Method to count number of keys from a JsonObject
-- Method returning a list of keys from a JsonObject
 - Create java object from Json object
 
 #### Usefull resources 
