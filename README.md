@@ -9,7 +9,6 @@ Experimental work, no stable realease yet.
 
 - Configuration for Date format (timestamp is default for now)
 - Be sure to keep initial primary type of value when converting to Json
-- Unit tests for JsonArray building (reusing some Json unit tests ?) 
 
 ##### New features / Ideas
 

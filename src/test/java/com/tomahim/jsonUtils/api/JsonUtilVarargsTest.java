@@ -1,8 +1,11 @@
 
 package com.tomahim.jsonUtils.api;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import org.junit.Before;
@@ -13,23 +16,29 @@ import com.tomahim.jsonUtils.entities.PersonGenerator;
 
 import static org.junit.Assert.*;
 
-public class JsonUtilVaragsTest {
+public class JsonUtilVarargsTest {
 
 	public PersonGenerator personGenerator;
+	
+	Date birthDate;
+	
+	Person p1;
+	
+	List<Person> persons;
 
 	@Before
-	public void init() {
+	public void init() {		
+		birthDate = new Date();
 		personGenerator = new PersonGenerator();
+		p1 = personGenerator.createPerson(1, "Tata", false, birthDate, 2, 1);
+		persons = new ArrayList<Person>();
+		persons.add(p1);
+		persons.add(p1);
+		persons.add(p1);
 	}
 	
-	@Test
-	public void buildingCompleteJsonFromVarags() {
-		
-		Date birthDate = new Date();
-		Person p1 = personGenerator.createPerson(1, "Tata", false, birthDate, 2, 1);
-		
-		JsonObject jsonObject = JsonUtils.toJson(p1, "id", "name", "isMale", "birthDate", "friends", "uncles");
-		
+	private void testCompleteJsonObject(JsonObject jsonObject) {
+
 		//It should contain all these keys
 		assertTrue(jsonObject.containsKey("id"));
 		assertTrue(jsonObject.containsKey("name"));
@@ -48,17 +57,25 @@ public class JsonUtilVaragsTest {
 		
 		//It shouldn't contain other properties from java object
 		assertFalse(jsonObject.containsKey("class"));
-		
 	}
 	
 	@Test
-	public void buildingJsonPartOfObjectFromVarags() {
+	public void buildingCompleteJsonFromVarargs() {		
+		JsonObject jsonObject = JsonUtils.toJson(p1, "id", "name", "isMale", "birthDate", "friends", "uncles");
+		testCompleteJsonObject(jsonObject);		
+	}
+	
+	@Test
+	public void buildingArrayFromCompleteJsonVarargs() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, "id", "name", "isMale", "birthDate", "friends", "uncles");
+		assertTrue(jsonArray.size() == 3);
+		for(int i = 0; i < jsonArray.size(); i++) {
+			testCompleteJsonObject(jsonArray.getJsonObject(i));
+		}
+	}
+	
+	private void testPartOfJsonObject(JsonObject jsonObject) {
 
-		Date birthDate = new Date();
-		Person p1 = personGenerator.createPerson(2, "Tata", false, birthDate, 2, 1);		
-
-		JsonObject jsonObject = JsonUtils.toJson(p1, "name", "birthDate", "friends");
-		
 		//It should contain all these keys
 		assertTrue(jsonObject.containsKey("name"));
 		assertTrue(jsonObject.containsKey("birthDate"));
@@ -73,6 +90,22 @@ public class JsonUtilVaragsTest {
 		assertFalse(jsonObject.containsKey("id"));
 		assertFalse(jsonObject.containsKey("isMale"));
 		assertFalse(jsonObject.containsKey("uncles"));
+	}
+	
+	@Test
+	public void buildingJsonPartOfObjectFromVarags() {	
+		JsonObject jsonObject = JsonUtils.toJson(p1, "name", "birthDate", "friends");
+		testPartOfJsonObject(jsonObject);
+		
+	}
+	
+	@Test
+	public void buildingArrayPartOfObjectFromJsonVarargs() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, "name", "birthDate", "friends");
+		assertTrue(jsonArray.size() == 3);
+		for(int i = 0; i < jsonArray.size(); i++) {
+			testPartOfJsonObject(jsonArray.getJsonObject(i));
+		}
 	}
 	
 	

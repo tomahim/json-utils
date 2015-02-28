@@ -2,7 +2,9 @@ package com.tomahim.jsonUtils.api;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -27,6 +29,8 @@ public class JsonUtilDepthTest {
 	
 	public Person depth3;	
 	
+	public List<Person> personsDepth3;	
+	
 	@Before
 	public void initData() {
 		personGenerator = new PersonGenerator();
@@ -47,6 +51,11 @@ public class JsonUtilDepthTest {
 		friendDeep2.addFriend(friendDeep3);
 		friendDeep1.addFriend(friendDeep2);
 		depth3.addFriend(friendDeep1);
+		
+		personsDepth3 = new ArrayList<Person>();
+		personsDepth3.add(depth3);
+		personsDepth3.add(depth3);
+		personsDepth3.add(depth3);
 	}
 	
 	@Test
@@ -90,12 +99,8 @@ public class JsonUtilDepthTest {
 		assertTrue(thirdUncle.getValueType().equals(ValueType.OBJECT));	
 		assertNull(thirdUncle.getJsonArray("uncles"));
  	}	
-
-	@Test
-	public void testJsonContructionDepth2() {
-		
-		JsonObject jsonObject = JsonUtils.toJson(depth3, 2);
-
+	
+	private void testDepth2(JsonObject jsonObject) {
 		//It should get deep level 1 data 
 		assertTrue(jsonObject.containsKey("friends"));
 		
@@ -116,6 +121,21 @@ public class JsonUtilDepthTest {
 
 		//It shouldn't get deep level 2 data 
 		assertFalse(friendDeep2.containsKey("friends"));
+	}
+
+	@Test
+	public void testJsonContructionDepth2() {
+		JsonObject jsonObject = JsonUtils.toJson(depth3, 2);
+		testDepth2(jsonObject); 
+	}
+	
+	@Test
+	public void testArrayConstructionDepth2() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(personsDepth3, 2);
+		assertTrue(jsonArray.size() == 3);
+		for(int i = 0; i < jsonArray.size(); i++) {
+			testDepth2(jsonArray.getJsonObject(i));			
+		}
 	}
 	
 }
