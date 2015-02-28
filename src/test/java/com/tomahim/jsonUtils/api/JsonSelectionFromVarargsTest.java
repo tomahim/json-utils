@@ -17,7 +17,7 @@ import com.tomahim.jsonUtils.entities.PersonGenerator;
 
 import static org.junit.Assert.*;
 
-public class JsonUtilVarargsTest {
+public class JsonSelectionFromVarargsTest {
 
 	public PersonGenerator personGenerator;
 	
