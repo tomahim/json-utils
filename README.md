@@ -18,3 +18,8 @@ Experimental work, no stable realease yet.
 ##### Maven
 
 http://www.mkyong.com/maven/how-to-include-library-manully-into-maven-local-repository/
+http://www.eclemma.org/jacoco/trunk/doc/maven.html
+
+##### Code coverage
+
+http://www.eclemma.org/
