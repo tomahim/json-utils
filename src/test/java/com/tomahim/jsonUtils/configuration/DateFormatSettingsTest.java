@@ -30,7 +30,7 @@ public class DateFormatSettingsTest {
 	
 	@Test
 	public void testDateFormatSetting() {
-		String dateFormat = "yyyy-mm-dd";
+		String dateFormat = "yyyy-MM-dd";
 		JsonUtilsSettings.setValue(SettingsEnum.DATE_FORMAT, dateFormat);
 		
 		JsonObject jsonObject = JsonUtils.toJson(p1, "birthDate");
