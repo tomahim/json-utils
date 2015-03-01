@@ -29,27 +29,34 @@ public class PersonGenerator {
 	}
 	
 	public Person createPerson() {
-		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), 0, 0, randomInt(0, 10));
+		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), createPersonWithNoMother(), 0, 0, randomInt(0, 10));
 	}
 	
 	public Person createPerson(String name) {
-		return createPerson(randomInt(0, 999), name, randomBoolean(), randomDate(), 0, 0, randomInt(0, 10));
+		return createPerson(randomInt(0, 999), name, randomBoolean(), randomDate(), createPersonWithNoMother(), 0, 0, randomInt(0, 10));
 	}
 
 	public Person createPerson(Date birthDate) {
-		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), birthDate, 0, 0, randomInt(0, 10));
+		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), birthDate, createPersonWithNoMother(), 0, 0, randomInt(0, 10));
+	}
+
+	public Person createPersonWithNoMother() {
+		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), null, 0, 0, randomInt(0, 10));
 	}
 	
 	public Person createPerson(int nbFriends, int nbUncles) {
-		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), nbFriends, nbUncles, randomInt(0, 10));
+		return createPerson(randomInt(0, 999), randomName(), randomBoolean(), randomDate(), createPerson(), nbFriends, nbUncles, randomInt(0, 10));
 	}
 	
-	public Person createPerson(Integer id, String name, Boolean isMale, Date birthDate, int nbFriends, int nbUncles, int nbSisters) {		
+	public Person createPerson(Integer id, String name, Boolean isMale, Date birthDate, Person mother, int nbFriends, int nbUncles, int nbSisters) {		
 		Person person = new Person();
 		person.setId(id);
 		person.setIsMale(isMale);
 		person.setName(name);
 		person.setBirthDate(birthDate);
+		if(mother != null) {
+			person.setMother(mother);
+		}
 		for(int i = 0; i < nbFriends; i++) {
 			person.addFriend(createPerson());
 		}

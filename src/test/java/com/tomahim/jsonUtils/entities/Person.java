@@ -18,6 +18,8 @@ public class Person implements Cloneable {
 		
 		private Boolean isMale;
 		
+		private Person mother;
+		
 		private List<Person> friends;
 		
 		private Set<Person> uncles;
@@ -59,6 +61,14 @@ public class Person implements Cloneable {
 
 		public void setIsMale(Boolean isMale) {
 			this.isMale = isMale;
+		}
+
+		public Person getMother() {
+			return mother;
+		}
+
+		public void setMother(Person mother) {
+			this.mother = mother;
 		}
 
 		public List<Person> getFriends() {

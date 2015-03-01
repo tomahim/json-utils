@@ -28,6 +28,8 @@ public class JsonSelectionFromSetTest {
 	
 	Person p1;
 	
+	Person mother;
+	
 	List<Person> persons;
 
 	@Before
@@ -35,7 +37,8 @@ public class JsonSelectionFromSetTest {
 		JsonUtilsSettings.resetSettings();
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
-		p1 = personGenerator.createPerson(1, "Tata", false, birthDate, 2, 1, 2);
+		mother = personGenerator.createPerson(2, "Mama", false, birthDate, personGenerator.createPerson(), 0, 0, 1);
+		p1 = personGenerator.createPerson(1, "Tata", false, birthDate, mother, 2, 1, 2);
 		persons = new ArrayList<Person>();
 		persons.add(p1);
 		persons.add(p1);

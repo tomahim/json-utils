@@ -27,6 +27,8 @@ public class JsonUtilFullObjectBuilderTest {
 	
 	Person p;
 	
+	Person mother;
+	
 	Date birthDate;
 	
 	List<Person> personsList;
@@ -40,7 +42,9 @@ public class JsonUtilFullObjectBuilderTest {
 		
 		birthDate = new Date();
 		personGenerator = new PersonGenerator();
-		p = personGenerator.createPerson(1, "Toto", true, birthDate, 0, 0, 2);
+		mother = personGenerator.createPerson(2, "Mama", false, birthDate, personGenerator.createPerson(), 0, 0, 1);
+		p = personGenerator.createPerson(1, "Toto", true, birthDate, mother, 0, 0, 2);
+		
 		personsList = new ArrayList<Person>();
 		personsList.add(p);
 		personsList.add(p);
