@@ -59,11 +59,12 @@ public class JsonUtilFullObjectBuilderTest {
 		assertNotNull(jsonObject);
 		
 		/* Key verification */
-		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate"));	
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "mother"));	
 		assertFalse(jsonObject.containsKey("privateInfo"));
 		
 		/* Values verifications */
 		assertEquals(p.getId().intValue(), jsonObject.getInt("id"));
+		assertEquals(2, jsonObject.getJsonObject("mother").getInt("id"));
 		assertEquals(jsonObject.getString("name"), p.getName());
 		assertTrue(jsonObject.getBoolean("isMale"));
 		assertEquals(jsonObject.getJsonNumber("birthDate").longValue(), birthDate.getTime());

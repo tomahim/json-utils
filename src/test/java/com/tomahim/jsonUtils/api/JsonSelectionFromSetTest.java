@@ -48,13 +48,14 @@ public class JsonSelectionFromSetTest {
 	private void testCompleteJsonObject(JsonObject jsonObject) {
 
 		//It should contain all these keys
-		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters"));	
+		assertTrue(CommonTestMethods.jsonObjectContainKeys(jsonObject, "id", "name", "isMale", "birthDate", "mother", "friends", "uncles", "nbSisters"));	
 	
 		//It should be the good values
 		assertTrue(jsonObject.getInt("id") == 1);
 		assertEquals("Tata", jsonObject.getString("name"));
 		assertEquals(false, jsonObject.getBoolean("isMale"));
 		assertEquals(birthDate.getTime(), jsonObject.getJsonNumber("birthDate").longValue());
+		assertEquals(2, jsonObject.getJsonObject("mother").getInt("id"));
 		assertTrue(jsonObject.getJsonArray("friends").size() == 2);
 		assertTrue(jsonObject.getJsonArray("uncles").size() == 1);
 		assertTrue(jsonObject.getInt("nbSisters") == 2);
@@ -66,7 +67,7 @@ public class JsonSelectionFromSetTest {
 	@Test
 	public void buildingCompleteJsonFromSet() {		
 		Set<String> selection = new HashSet<String>();		
-		String[] fields = {"id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters"};
+		String[] fields = {"id", "name", "isMale", "birthDate", "mother", "friends", "uncles", "nbSisters"};
 		selection.addAll(Arrays.asList(fields));
 		JsonObject jsonObject = JsonUtils.toJson(p1, selection);
 		testCompleteJsonObject(jsonObject);		
@@ -75,7 +76,7 @@ public class JsonSelectionFromSetTest {
 	@Test
 	public void buildingArrayFromCompleteSet() {
 		Set<String> selection = new HashSet<String>();		
-		String[] fields = {"id", "name", "isMale", "birthDate", "friends", "uncles", "nbSisters"};
+		String[] fields = {"id", "name", "isMale", "birthDate", "mother", "friends", "uncles", "nbSisters"};
 		selection.addAll(Arrays.asList(fields));
 		
 		JsonArray jsonArray = JsonUtils.toJsonArray(persons, selection);

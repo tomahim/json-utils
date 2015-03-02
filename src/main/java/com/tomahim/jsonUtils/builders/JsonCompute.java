@@ -23,11 +23,7 @@ public class JsonCompute {
 	final static String DOT_SPLIT_REGEX = "\\.";
 	
 	private static String computeAttributeNameFromMethod(Method m) {
-		Class<?> returnType = m.getReturnType();
-		if(ReflectUtil.isPrimiveObject(returnType) || returnType.equals(List.class) || returnType.equals(Set.class)) {
-			return ReflectUtil.getPropertyFromMethod(m);
-		}
-		return StringUtil.lowercaseFirstLetter(returnType.getSimpleName());
+		return ReflectUtil.getPropertyFromMethod(m);
 	}
 	
 	private static boolean needRecusivity(Method m) {
@@ -170,7 +166,7 @@ public class JsonCompute {
 				}
 			} else {
 				if(propertyName.equals(valuePath)) {
-					addToJsonBuilderMethod(jsonBuilder, object, method, multipleObjectsReturned(method) ? 1 : 0, key);					
+					addToJsonBuilderMethod(jsonBuilder, object, method, multipleObjectsReturned(method) || !ReflectUtil.isPrimiveObject(method.getReturnType()) ? 1 : 0, key);					
 				}				
 			}			
 		}
