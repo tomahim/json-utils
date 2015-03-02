@@ -126,7 +126,7 @@ public class JsonUtils {
 	 */
 	
 	private static Map<String, String> transformVarargsToMap(String[] values) {
-		if (values.length == 0) {
+		if (values == null || values.length == 0) {
 		   throw new IllegalArgumentException("No values supplied.");
 	    }
 

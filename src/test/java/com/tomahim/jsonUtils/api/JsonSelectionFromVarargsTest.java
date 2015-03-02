@@ -106,5 +106,19 @@ public class JsonSelectionFromVarargsTest {
 		}
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void nullVarargsShouldThrowIllegalArgumentException() {
+		String[] varargs = null;
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, varargs);
+	}
+	
+
+	@Test(expected=IllegalArgumentException.class)
+	public void emptyVarargsSouldThrowIllegalArgumentException() {
+		String[] varargs = {};
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, varargs);
+	}
+	
+	
 	
 }
