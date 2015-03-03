@@ -104,6 +104,28 @@ public class JsonSelectionFromVarargsTest {
 		for(int i = 0; i < jsonArray.size(); i++) {
 			testPartOfJsonObject(jsonArray.getJsonObject(i));
 		}
+	}	
+
+	private void testDeepObjectSelection(JsonObject jsonObject) {
+		assertTrue(jsonObject.containsKey("name"));
+		assertTrue(jsonObject.containsKey("mother"));
+		assertTrue(jsonObject.containsKey("friends"));
+		assertEquals("Mama", jsonObject.getJsonObject("mother").getString("name"));
+	}
+	
+	@Test
+	public void deepObjectSelection() {
+		JsonObject jsonObject = JsonUtils.toJson(p1, "name", "mother.name", "friends.name");
+		testDeepObjectSelection(jsonObject);
+	}
+	
+	@Test
+	public void deepArraySelection() {
+		JsonArray jsonArray = JsonUtils.toJsonArray(persons, "name", "mother.name", "friends.name");
+		assertTrue(jsonArray.size() == 3);
+		for(int i = 0; i < jsonArray.size(); i++) {
+			testDeepObjectSelection(jsonArray.getJsonObject(i));
+		}		
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -118,7 +140,4 @@ public class JsonSelectionFromVarargsTest {
 		String[] varargs = {};
 		JsonArray jsonArray = JsonUtils.toJsonArray(persons, varargs);
 	}
-	
-	
-	
 }
