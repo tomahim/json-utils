@@ -10,6 +10,7 @@ Experimental work, no stable realease yet.
 - Be sure to keep initial primary type of value when converting to Json
 - Unit test and better handle of deep field selection with varargs and Map
 - Unit test for exception cases
+- Create interface for JsonUtils
 
 ##### New features / Ideas
 
