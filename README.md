@@ -14,7 +14,6 @@ Experimental work, no stable realease yet.
   - "list" : it should return the entire array
   - "list[id, name]" : it should return an array like [{id : 1, name : "Toto"}, {id : 2, name : "Tata"}]
 
-- Create method JsonUtils.toJson(Person[] persons)
 - Unit test for exception cases
 - Optimize method finding by constructing a Map<String, Method> (example : <"person.name", methodObject>) or Map<Class, Entry<String, Method>> ?
 - Create interface for JsonUtils
