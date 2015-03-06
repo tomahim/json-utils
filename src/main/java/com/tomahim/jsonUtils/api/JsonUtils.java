@@ -31,7 +31,7 @@ public final class JsonUtils {
 	public static JsonObject toJson(Object object, int maxDepth) {
 		try {
 			return JsonCompute.getJsonObjectBuilderFromJavaObject(object, maxDepth).build();
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +54,7 @@ public final class JsonUtils {
 	 * Using map selection
 	 */
 	
-	private static JsonArray toJsonArrayFromMap(Collection<?> collection, Map<String, String> map) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonArray toJsonArrayFromMap(Collection<?> collection, Map<String, String> map) throws IllegalAccessException, InvocationTargetException {
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 	    for(Object o : collection) {	        
 			jsonArrayBuilder.add(toJsonFromMap(o, map));
@@ -62,7 +62,7 @@ public final class JsonUtils {
 	    return jsonArrayBuilder.build();
 	}
 	
-	private static JsonObject toJsonFromMap(Object o, Map<String, String> selection) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonObject toJsonFromMap(Object o, Map<String, String> selection) throws IllegalAccessException, InvocationTargetException {
 		JsonNode rootNode = new JsonNode();
 		return JsonCompute.getJsonObjectFromTree(null, o, JsonTreeBuilder.constructTreeFromMap(rootNode, selection)).build();
 	}
@@ -70,7 +70,7 @@ public final class JsonUtils {
 	public static JsonObject toJson(Object o, Map<String, String> selection) {
 		try {
 			return toJsonFromMap(o, selection);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -80,7 +80,7 @@ public final class JsonUtils {
 	public static JsonArray toJsonArray(Collection<?> collection, Map<String, String> selection) {
 		try {
 		return toJsonArrayFromMap(collection, selection);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public final class JsonUtils {
 		Map<String, String> map  = transformSetToMap(attributes);
 		try {
 			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public final class JsonUtils {
 		Map<String, String> map  = transformSetToMap(attributes);
 		try {
 			return toJsonArrayFromMap(collection, map);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,7 +144,7 @@ public final class JsonUtils {
 		Map<String, String> map = transformVarargsToMap(attributes);
 		try {
 			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,7 +156,7 @@ public final class JsonUtils {
 		Map<String, String> map  = transformVarargsToMap(attributes);
 		try {
 			return toJsonArrayFromMap(collection, map);
-		} catch (IllegalAccessException | IllegalArgumentException
+		} catch (IllegalAccessException
 				| InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

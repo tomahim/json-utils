@@ -40,7 +40,7 @@ public final class JsonCompute {
 		return returnType.equals(List.class) || returnType.equals(Set.class);
 	}
 	
-	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, InvocationTargetException {
 		String returnTypeName = method.getReturnType().getSimpleName();
 		switch (returnTypeName) {
 			case "boolean" :
@@ -101,7 +101,7 @@ public final class JsonCompute {
 		}
 	}
 	
-	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth, String propertyName) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {		
+	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth, String propertyName) throws IllegalAccessException, InvocationTargetException {		
 		String property = propertyName != null ? propertyName : computeAttributeNameFromMethod(method);
 		if(!needRecusivity(method)) {
 			addKeyValue(jsonBuilder, o, property, method);
@@ -115,11 +115,11 @@ public final class JsonCompute {
 		}
 	}
 	
-	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth) throws IllegalAccessException, InvocationTargetException {
 		addToJsonBuilderMethod(jsonBuilder, o, method, maxDepth, null);
 	}
 		
-	public static JsonObjectBuilder getJsonObjectBuilderFromJavaObject(Object object, int maxDepth) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static JsonObjectBuilder getJsonObjectBuilderFromJavaObject(Object object, int maxDepth) throws IllegalAccessException, InvocationTargetException {
 		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
 		List<Method> methods = ReflectUtil.getAccessibleGettersMethods(object);
 		for (Method method : methods) {			
@@ -141,7 +141,7 @@ public final class JsonCompute {
 	    return jsonArrayBuilder;
 	}
 	
-	private static JsonArrayBuilder resolveArrayValuePath(JsonArrayBuilder jsonArrayBuilder, Collection<?> collection, String key, String valuePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonArrayBuilder resolveArrayValuePath(JsonArrayBuilder jsonArrayBuilder, Collection<?> collection, String key, String valuePath) throws IllegalAccessException, InvocationTargetException {
 		JsonArrayBuilder jsonB = (jsonArrayBuilder != null) ? jsonArrayBuilder : Json.createArrayBuilder();
 	    for(Object o : collection) {
 	        try {
@@ -154,7 +154,7 @@ public final class JsonCompute {
 	    return jsonB;
 	}
 	
-	private static JsonObjectBuilder resolveValuePath(JsonObjectBuilder jsonBuilder, Object object, String key, String valuePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static JsonObjectBuilder resolveValuePath(JsonObjectBuilder jsonBuilder, Object object, String key, String valuePath) throws IllegalAccessException, InvocationTargetException {
 		List<Method> methods = ReflectUtil.getAccessibleGettersMethods(object);
 		for(Method method : methods) {
 			String propertyName = computeAttributeNameFromMethod(method);
@@ -177,7 +177,7 @@ public final class JsonCompute {
 		return jsonBuilder;
 	}
 	
-	public static JsonObjectBuilder getJsonObjectFromTree(JsonObjectBuilder jsonBuilder, Object object, JsonNode jsonNode) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static JsonObjectBuilder getJsonObjectFromTree(JsonObjectBuilder jsonBuilder, Object object, JsonNode jsonNode) throws IllegalAccessException, InvocationTargetException {
 		JsonObjectBuilder jsonB = (jsonBuilder != null) ? jsonBuilder : Json.createObjectBuilder();
 		if(jsonNode.isLeaf()) {
 			//add attribute to jsonB + calculate value of valuePath
