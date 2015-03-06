@@ -20,8 +20,8 @@ public final class ReflectUtil {
         return WRAPPER_TYPES.contains(clazz);
     }
 
-    private static Set<Class<?>> getWrapperTypes() {
-        Set<Class<?>> ret = new HashSet<Class<?>>();
+    private static Set<Class<? extends Object>> getWrapperTypes() {
+        Set<Class<? extends Object>> ret = new HashSet<Class<? extends Object>>();
         ret.add(Boolean.class);
         ret.add(Character.class);
         ret.add(Byte.class);
