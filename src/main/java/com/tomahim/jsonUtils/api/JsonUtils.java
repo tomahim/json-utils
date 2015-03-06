@@ -19,148 +19,155 @@ import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
 /* API Definition */
 public final class JsonUtils {
-	
+
 	private JsonUtils() {
-		
+
 	}
-	
+
 	/*
-	 * Getting all fields with getter methods 
+	 * Getting all fields with getter methods
 	 */
-	
+
 	public static JsonObject toJson(Object object, int maxDepth) {
 		try {
-			return JsonCompute.getJsonObjectBuilderFromJavaObject(object, maxDepth).build();
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+			return JsonCompute.getJsonObjectBuilderFromJavaObject(object,
+					maxDepth).build();
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public static JsonArray toJsonArray(Collection<?> collection, int maxDepth) {
-	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, maxDepth).build();
+		return JsonCompute.getJsonArrayBuilderFomJavaList(collection, maxDepth)
+				.build();
 	}
 
 	public static JsonObject toJson(Object object) {
-		return toJson(object, (int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL));
+		return toJson(object,
+				(int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL));
 	}
-	
+
 	public static JsonArray toJsonArray(Collection<?> collection) {
-	    return JsonCompute.getJsonArrayBuilderFomJavaList(collection, (int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL)).build();
+		return JsonCompute.getJsonArrayBuilderFomJavaList(collection,
+				(int) JsonUtilsSettings.value(SettingsEnum.DEPTH_LEVEL))
+				.build();
 	}
-	
+
 	/*
 	 * Using map selection
 	 */
-	
-	private static JsonArray toJsonArrayFromMap(Collection<?> collection, Map<String, String> map) throws IllegalAccessException, InvocationTargetException {
+
+	private static JsonArray toJsonArrayFromMap(Collection<?> collection,
+			Map<String, String> map) throws IllegalAccessException,
+			InvocationTargetException {
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-	    for(Object o : collection) {	        
+		for (Object o : collection) {
 			jsonArrayBuilder.add(toJsonFromMap(o, map));
-	    }
-	    return jsonArrayBuilder.build();
+		}
+		return jsonArrayBuilder.build();
 	}
-	
-	private static JsonObject toJsonFromMap(Object o, Map<String, String> selection) throws IllegalAccessException, InvocationTargetException {
+
+	private static JsonObject toJsonFromMap(Object o,
+			Map<String, String> selection) throws IllegalAccessException,
+			InvocationTargetException {
 		JsonNode rootNode = new JsonNode();
-		return JsonCompute.getJsonObjectFromTree(null, o, JsonTreeBuilder.constructTreeFromMap(rootNode, selection)).build();
+		return JsonCompute.getJsonObjectFromTree(null, o,
+				JsonTreeBuilder.constructTreeFromMap(rootNode, selection))
+				.build();
 	}
-	
+
 	public static JsonObject toJson(Object o, Map<String, String> selection) {
 		try {
 			return toJsonFromMap(o, selection);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public static JsonArray toJsonArray(Collection<?> collection, Map<String, String> selection) {
+
+	public static JsonArray toJsonArray(Collection<?> collection,
+			Map<String, String> selection) {
 		try {
-		return toJsonArrayFromMap(collection, selection);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+			return toJsonArrayFromMap(collection, selection);
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-	}	
-	
+	}
+
 	/*
 	 * Using Set
 	 */
-	
+
 	private static Map<String, String> transformSetToMap(Set<String> set) {
-		Map<String, String> map  = new HashMap<String, String>();
-		for(String el : set) {
+		Map<String, String> map = new HashMap<String, String>();
+		for (String el : set) {
 			map.put(el, el);
 		}
 		return map;
 	}
-	
+
 	public static JsonObject toJson(Object o, Set<String> attributes) {
-		Map<String, String> map  = transformSetToMap(attributes);
+		Map<String, String> map = transformSetToMap(attributes);
 		try {
 			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public static JsonArray toJsonArray(Collection<?> collection, Set<String> attributes) {
-		Map<String, String> map  = transformSetToMap(attributes);
+
+	public static JsonArray toJsonArray(Collection<?> collection,
+			Set<String> attributes) {
+		Map<String, String> map = transformSetToMap(attributes);
 		try {
 			return toJsonArrayFromMap(collection, map);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-	}		
-	
+	}
+
 	/*
 	 * Using varargs
 	 */
-	
+
 	private static Map<String, String> transformVarargsToMap(String[] values) {
 		if (values == null || values.length == 0) {
-		   throw new IllegalArgumentException("No values supplied.");
-	    }
+			throw new IllegalArgumentException("No values supplied.");
+		}
 
-		Map<String, String> map  = new HashMap<String, String>();
-	    for (String el : values) {
-	    	map.put(el, el);
-	    }
-	    return map;
+		Map<String, String> map = new HashMap<String, String>();
+		for (String el : values) {
+			map.put(el, el);
+		}
+		return map;
 	}
-	
+
 	public static JsonObject toJson(Object o, String... attributes) {
 		Map<String, String> map = transformVarargsToMap(attributes);
 		try {
 			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static JsonArray toJsonArray(Collection<?> collection, String... attributes) {
-		Map<String, String> map  = transformVarargsToMap(attributes);
+	public static JsonArray toJsonArray(Collection<?> collection,
+			String... attributes) {
+		Map<String, String> map = transformVarargsToMap(attributes);
 		try {
 			return toJsonArrayFromMap(collection, map);
-		} catch (IllegalAccessException
-				| InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-	}		
+	}
 }

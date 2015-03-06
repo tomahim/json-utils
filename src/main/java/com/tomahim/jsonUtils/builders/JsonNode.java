@@ -1,15 +1,16 @@
 package com.tomahim.jsonUtils.builders;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonNode {
-	
+
 	private String key;
-	
+
 	private String valuePath;
-	
+
 	private List<JsonNode> nodes;
-	
+
 	public JsonNode(String key, String valuePath) {
 		this.key = key;
 		this.valuePath = valuePath;
@@ -21,7 +22,7 @@ public class JsonNode {
 		this.valuePath = null;
 		this.nodes = new ArrayList<JsonNode>();
 	}
-	
+
 	public JsonNode() {
 		this.key = null;
 		this.valuePath = null;
@@ -31,10 +32,10 @@ public class JsonNode {
 	public void addNode(JsonNode node) {
 		nodes.add(node);
 	}
-	
+
 	public JsonNode findNode(String key) {
-		for(JsonNode node : nodes) {
-			if(node.getKey().equals(key)) {
+		for (JsonNode node : nodes) {
+			if (node.getKey().equals(key)) {
 				return node;
 			}
 		}
@@ -56,7 +57,7 @@ public class JsonNode {
 	public void setValuePath(String valuePath) {
 		this.valuePath = valuePath;
 	}
-	
+
 	public List<JsonNode> getNodes() {
 		return nodes;
 	}
@@ -68,27 +69,27 @@ public class JsonNode {
 	public boolean isRoot() {
 		return key == null && valuePath == null;
 	}
-	
+
 	public boolean isLeaf() {
 		return key != null && valuePath != null && nodes.isEmpty();
 	}
-	
+
 	@Override
 	public String toString() {
-		if(isLeaf()) {
+		if (isLeaf()) {
 			return "{" + key + " : " + valuePath + "}";
 		} else {
 			String nodeString = "";
-			for(int i = 0; i < nodes.size(); i++) {
+			for (int i = 0; i < nodes.size(); i++) {
 				nodeString += nodes.get(i);
-				if(nodes.get(i).isLeaf()) {
+				if (nodes.get(i).isLeaf()) {
 					nodeString += "(true)";
 				}
-				if(i != (nodes.size() -1)) {
+				if (i != (nodes.size() - 1)) {
 					nodeString += ", ";
 				}
 			}
 			return "{" + key + " : " + nodeString + "}";
- 		}
+		}
 	}
 }
