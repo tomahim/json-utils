@@ -4,8 +4,11 @@ import java.util.Map;
 
 import com.tomahim.jsonUtils.common.StringUtil;
 
-public class JsonTreeBuilder {
+public final class JsonTreeBuilder {
 
+	private JsonTreeBuilder() {
+		
+	}
 	
 	final static String DOT = ".";
 	final static String DOT_SPLIT_REGEX = "\\."; 

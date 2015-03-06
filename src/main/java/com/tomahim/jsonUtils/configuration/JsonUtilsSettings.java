@@ -3,8 +3,12 @@ package com.tomahim.jsonUtils.configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JsonUtilsSettings {
+public final class JsonUtilsSettings {
 
+	private JsonUtilsSettings() {
+		
+	}
+	
 	public final static String DEFAULT_DATE_FORMAT = "timestamp";
 	public final static int DEFAULT_MAX_DEPTH = 1;
 		

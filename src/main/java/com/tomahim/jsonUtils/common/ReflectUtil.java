@@ -8,7 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReflectUtil {
+public final class ReflectUtil {
+	
+	private ReflectUtil() {
+		
+	}
 	
 	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
 

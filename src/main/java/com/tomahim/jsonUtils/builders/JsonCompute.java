@@ -17,7 +17,11 @@ import com.tomahim.jsonUtils.common.*;
 import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
-public class JsonCompute {	
+public final class JsonCompute {	
+	
+	private JsonCompute() {
+		
+	}
 	
 	final static String DOT = ".";
 	final static String DOT_SPLIT_REGEX = "\\.";

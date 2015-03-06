@@ -1,6 +1,10 @@
 package com.tomahim.jsonUtils.common;
-public class StringUtil {
+public final class StringUtil {
 
+	private StringUtil() {
+		
+	}
+	
 	final static String DOT = ".";
 	final static String DOT_SPLIT_REGEX = "\\.";
 	
