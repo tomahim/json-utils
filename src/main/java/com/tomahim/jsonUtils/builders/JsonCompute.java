@@ -160,13 +160,14 @@ public final class JsonCompute {
 			String propertyName = computeAttributeNameFromMethod(method);
 			if(valuePath.contains(DOT)) {
 				String[] values = valuePath.split(DOT_SPLIT_REGEX);
-				if(propertyName.equals(values[0])) {
-					String nextValue = StringUtil.getNextValue(valuePath);
-					if(!multipleObjectsReturned(method)) { //Simple object to parse
-						resolveValuePath(jsonBuilder, method.invoke(object), key, nextValue);
-					} else {  //Collection of objects
-						jsonBuilder.add(key, resolveArrayValuePath(null, (Collection<?>) method.invoke(object), key, nextValue));
-					}
+				if(!propertyName.equals(values[0])) {
+					continue;
+				}
+				String nextValue = StringUtil.getNextValue(valuePath);
+				if(!multipleObjectsReturned(method)) { //Simple object to parse
+					resolveValuePath(jsonBuilder, method.invoke(object), key, nextValue);
+				} else {  //Collection of objects
+					jsonBuilder.add(key, resolveArrayValuePath(null, (Collection<?>) method.invoke(object), key, nextValue));
 				}
 			} else {
 				if(propertyName.equals(valuePath)) {
