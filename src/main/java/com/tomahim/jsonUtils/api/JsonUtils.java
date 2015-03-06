@@ -18,7 +18,11 @@ import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
 /* API Definition */
-public class JsonUtils {
+public final class JsonUtils {
+	
+	private JsonUtils() {
+		
+	}
 	
 	/*
 	 * Getting all fields with getter methods 
