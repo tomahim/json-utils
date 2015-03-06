@@ -19,12 +19,12 @@ import com.tomahim.jsonUtils.configuration.SettingsEnum;
 
 public final class JsonCompute {	
 	
+	final static String DOT = ".";
+	final static String DOT_SPLIT_REGEX = "\\.";
+	
 	private JsonCompute() {
 		
 	}
-	
-	final static String DOT = ".";
-	final static String DOT_SPLIT_REGEX = "\\.";
 	
 	private static String computeAttributeNameFromMethod(Method m) {
 		return ReflectUtil.getPropertyFromMethod(m);

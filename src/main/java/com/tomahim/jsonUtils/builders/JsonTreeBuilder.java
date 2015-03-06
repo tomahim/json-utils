@@ -6,12 +6,12 @@ import com.tomahim.jsonUtils.common.StringUtil;
 
 public final class JsonTreeBuilder {
 
+	final static String DOT = ".";
+	final static String DOT_SPLIT_REGEX = "\\."; 
+	
 	private JsonTreeBuilder() {
 		
 	}
-	
-	final static String DOT = ".";
-	final static String DOT_SPLIT_REGEX = "\\."; 
 	
 	public static JsonNode constructTreeFromMap(JsonNode node, Map<String, String> selection) {
 		for(Map.Entry<String, String> entry : selection.entrySet()) {

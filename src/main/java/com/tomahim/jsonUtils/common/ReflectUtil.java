@@ -10,11 +10,11 @@ import java.util.Set;
 
 public final class ReflectUtil {
 	
+	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
+	
 	private ReflectUtil() {
 		
 	}
-	
-	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
 
     public static boolean isWrapperType(Class<?> clazz) {
         return WRAPPER_TYPES.contains(clazz);

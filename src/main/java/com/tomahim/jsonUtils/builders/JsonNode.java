@@ -70,9 +70,10 @@ public class JsonNode {
 	}
 	
 	public boolean isLeaf() {
-		return key != null && valuePath != null && nodes.size() == 0;
+		return key != null && valuePath != null && nodes.isEmpty();
 	}
 	
+	@Override
 	public String toString() {
 		if(isLeaf()) {
 			return "{" + key + " : " + valuePath + "}";

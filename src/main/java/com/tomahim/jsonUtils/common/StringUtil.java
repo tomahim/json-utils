@@ -1,12 +1,12 @@
 package com.tomahim.jsonUtils.common;
 public final class StringUtil {
 
+	final static String DOT = ".";
+	final static String DOT_SPLIT_REGEX = "\\.";
+
 	private StringUtil() {
 		
 	}
-	
-	final static String DOT = ".";
-	final static String DOT_SPLIT_REGEX = "\\.";
 	
 	public static String lowercaseFirstLetter(String name) {
 		return name.substring(0, 1).toLowerCase() + name.substring(1);

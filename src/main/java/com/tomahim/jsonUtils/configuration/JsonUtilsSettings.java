@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class JsonUtilsSettings {
+	
+
+	
+	public final static String DEFAULT_DATE_FORMAT = "timestamp";
+	public final static int DEFAULT_MAX_DEPTH = 1;
+	
+	public static Map<String, Object> config;
 
 	private JsonUtilsSettings() {
 		
 	}
 	
-	public final static String DEFAULT_DATE_FORMAT = "timestamp";
-	public final static int DEFAULT_MAX_DEPTH = 1;
-		
-	public static Map<String, Object> config;
 	static {
 		
 		//Initializing defaults settings 
