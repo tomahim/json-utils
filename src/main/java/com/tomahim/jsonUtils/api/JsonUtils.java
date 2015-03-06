@@ -68,7 +68,6 @@ public class JsonUtils {
 			return toJsonFromMap(o, selection);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
