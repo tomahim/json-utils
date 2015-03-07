@@ -179,16 +179,17 @@ public final class JsonCompute {
 		return jsonBuilder;
 	}
 	
-	public static JsonObjectBuilder getJsonObjectFromTree(JsonObjectBuilder jsonBuilder, Object object, JsonNode jsonNode) throws BuildingJsonException {
+	
+	public static JsonObjectBuilder getJsonObjectFromTree(JsonObjectBuilder jsonBuilder, Object object, JsonNode jsonNode) {
 		JsonObjectBuilder jsonB = (jsonBuilder != null) ? jsonBuilder : Json.createObjectBuilder();
 		if(jsonNode.isLeaf()) {
 			//add attribute to jsonB + calculate value of valuePath
 			try {
 				resolveValuePath(jsonB, object, jsonNode.getKey(), jsonNode.getValuePath());
 			} catch (IllegalAccessException e) {
-				throw new BuildingJsonException("Error accessing object propetry");
+				
 			} catch (InvocationTargetException e) {
-				throw new BuildingJsonException("Error invoking getter method");
+				
 			}
 		} else {
 			for(JsonNode node : jsonNode.getNodes()) {
@@ -197,9 +198,9 @@ public final class JsonCompute {
 					try {
 						resolveValuePath(jsonB, object, node.getKey(), node.getValuePath());
 					} catch (IllegalAccessException e) {
-						throw new BuildingJsonException("Error accessing object propetry");
+
 					} catch (InvocationTargetException e) {
-						throw new BuildingJsonException("Error invoking getter method");
+						
 					}			
 				} else {
 					jsonB.add(node.getKey(), getJsonObjectFromTree(null, object, node));
