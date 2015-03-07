@@ -16,6 +16,7 @@ import com.tomahim.jsonUtils.builders.JsonNode;
 import com.tomahim.jsonUtils.builders.JsonTreeBuilder;
 import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
+import com.tomahim.jsonUtils.exceptions.BuildingJsonException;
 
 /* API Definition */
 public final class JsonUtils {
@@ -68,22 +69,21 @@ public final class JsonUtils {
 		return jsonArrayBuilder.build();
 	}
 
-	private static JsonObject toJsonFromMap(Object o,
-			Map<String, String> selection) throws IllegalAccessException,
-			InvocationTargetException {
+	private static JsonObject toJsonFromMap(Object o, Map<String, String> selection) {
 		JsonNode rootNode = new JsonNode();
-		return JsonCompute.getJsonObjectFromTree(null, o,
-				JsonTreeBuilder.constructTreeFromMap(rootNode, selection))
-				.build();
-	}
-
-	public static JsonObject toJson(Object o, Map<String, String> selection) {
 		try {
-			return toJsonFromMap(o, selection);
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			return JsonCompute.getJsonObjectFromTree(null, o,
+					JsonTreeBuilder.constructTreeFromMap(rootNode, selection))
+					.build();
+		} catch (BuildingJsonException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static JsonObject toJson(Object o, Map<String, String> selection) {
+		return toJsonFromMap(o, selection);
 	}
 
 	public static JsonArray toJsonArray(Collection<?> collection,
@@ -111,13 +111,7 @@ public final class JsonUtils {
 
 	public static JsonObject toJson(Object o, Set<String> attributes) {
 		Map<String, String> map = transformSetToMap(attributes);
-		try {
-			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return toJsonFromMap(o, map);
 	}
 
 	public static JsonArray toJsonArray(Collection<?> collection,
@@ -150,13 +144,7 @@ public final class JsonUtils {
 
 	public static JsonObject toJson(Object o, String... attributes) {
 		Map<String, String> map = transformVarargsToMap(attributes);
-		try {
-			return toJsonFromMap(o, map);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return toJsonFromMap(o, map);
 	}
 
 	public static JsonArray toJsonArray(Collection<?> collection,
