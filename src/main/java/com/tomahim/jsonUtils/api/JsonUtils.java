@@ -146,6 +146,10 @@ public final class JsonUtils {
 			case NUMBER:
 				classType = Integer.class;
 			break;			
+			case TRUE: 
+			case FALSE:
+				classType = Boolean.class;
+			break;
 			default:
 				classType = String.class;
 			break;
@@ -161,6 +165,9 @@ public final class JsonUtils {
 			break;
 			case "String":
 				value = jsonObject.getString(key);
+			break;	
+			case "Boolean":
+				value = jsonObject.getBoolean(key);
 			break;	
 			default:
 				value = jsonObject.getString(key);
