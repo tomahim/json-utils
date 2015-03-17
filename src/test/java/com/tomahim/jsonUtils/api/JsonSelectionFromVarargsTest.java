@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonValue.ValueType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -110,6 +111,10 @@ public class JsonSelectionFromVarargsTest {
 		assertTrue(jsonObject.containsKey("name"));
 		assertTrue(jsonObject.containsKey("mother"));
 		assertTrue(jsonObject.containsKey("friends"));
+		JsonObject friends = jsonObject.getJsonObject("friends");
+		assertTrue(friends.containsKey("name"));
+		assertTrue(friends.getJsonArray("name").size() == 2);
+		assertTrue(friends.getJsonArray("name").getJsonObject(0).getValueType().equals(ValueType.STRING));
 		assertEquals("Mama", jsonObject.getJsonObject("mother").getString("name"));
 	}
 	

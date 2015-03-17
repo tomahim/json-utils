@@ -13,15 +13,15 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
-import com.tomahim.jsonUtils.common.*;
+import com.tomahim.jsonUtils.common.ReflectUtil;
+import com.tomahim.jsonUtils.common.StringUtil;
 import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
-import com.tomahim.jsonUtils.exceptions.BuildingJsonException;
 
 public final class JsonCompute {	
 	
 	final static String DOT = ".";
-	final static String DOT_SPLIT_REGEX = "\\.";
+    final static String DOT_SPLIT_REGEX = "\\.";
 	
 	private JsonCompute() {
 		

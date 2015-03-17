@@ -1,8 +1,10 @@
 package com.tomahim.jsonUtils.api;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,9 +16,10 @@ import javax.json.JsonObject;
 import com.tomahim.jsonUtils.builders.JsonCompute;
 import com.tomahim.jsonUtils.builders.JsonNode;
 import com.tomahim.jsonUtils.builders.JsonTreeBuilder;
+import com.tomahim.jsonUtils.common.ReflectUtil;
 import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
-import com.tomahim.jsonUtils.exceptions.BuildingJsonException;
+import com.tomahim.jsonUtils.entities.Person;
 
 /* API Definition */
 public final class JsonUtils {
@@ -69,7 +72,7 @@ public final class JsonUtils {
 
 	private static JsonObject toJsonFromMap(Object o, Map<String, String> selection) {
 		JsonNode rootNode = new JsonNode();
-		return JsonCompute.getJsonObjectFromTree(null, o,
+		return JsonCompute.getJsonObjectFromTree(null, o, 
 				JsonTreeBuilder.constructTreeFromMap(rootNode, selection))
 				.build();
 	}
@@ -130,5 +133,21 @@ public final class JsonUtils {
 			String... attributes) {
 		Map<String, String> map = transformVarargsToMap(attributes);
 		return toJsonArrayFromMap(collection, map);
+	}
+
+	public static Object create(Class classType, JsonObject jsonObject) {
+		try {
+			Object obj = classType.newInstance();
+			Person p = (Person) obj;
+			p.setName(jsonObject.getString("name"));
+			return p;			
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
