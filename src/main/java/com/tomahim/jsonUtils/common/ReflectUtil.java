@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.json.JsonValue;
+
 public final class ReflectUtil {
 
 	private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
@@ -95,5 +97,10 @@ public final class ReflectUtil {
 			}
 		}
 		return methodsAccessible;
+	}	
+	
+	public static Method getSetterByMemberName(Class classType, String name, Class jsonValueClass) throws NoSuchMethodException, SecurityException {
+		String setterName = "set"+name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+		return classType.getMethod(setterName, jsonValueClass);
 	}
 }

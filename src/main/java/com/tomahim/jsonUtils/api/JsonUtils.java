@@ -12,6 +12,8 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 
 import com.tomahim.jsonUtils.builders.JsonCompute;
 import com.tomahim.jsonUtils.builders.JsonNode;
@@ -134,13 +136,65 @@ public final class JsonUtils {
 		Map<String, String> map = transformVarargsToMap(attributes);
 		return toJsonArrayFromMap(collection, map);
 	}
+		
+	private static Class getClassTypeFromJsonValue(JsonValue jsonValue) {
+		Class classType = null;
+		switch(jsonValue.getValueType()) {
+			case STRING:
+				classType = String.class;
+			break;
+			case NUMBER:
+				classType = Integer.class;
+			break;			
+			default:
+				classType = String.class;
+			break;
+		}
+		return classType;
+	}
+	
+	private static Object getJavaObjectValueFromJsonValue(JsonObject jsonObject, String key, Class jsonValueClass) {
+		Object value = null;
+		switch (jsonValueClass.getSimpleName()) {
+			case "Integer":
+				value = jsonObject.getInt(key);
+			break;
+			case "String":
+				value = jsonObject.getString(key);
+			break;	
+			default:
+				value = jsonObject.getString(key);
+			break;
+		}
+		return value;
+	}
 
 	public static Object create(Class classType, JsonObject jsonObject) {
 		try {
 			Object obj = classType.newInstance();
-			Person p = (Person) obj;
-			p.setName(jsonObject.getString("name"));
-			return p;			
+			for(String key : jsonObject.keySet()) {
+				Method setter = null;
+				Class classTypeValue = null; 
+				try {
+					classTypeValue = getClassTypeFromJsonValue(jsonObject.get(key));
+					setter = ReflectUtil.getSetterByMemberName(classType, key, classTypeValue);
+				} catch (NoSuchMethodException | SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(setter != null && classTypeValue != null) {
+					try {
+						setter.invoke(obj, getJavaObjectValueFromJsonValue(jsonObject, key, classTypeValue));
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			return obj;			
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

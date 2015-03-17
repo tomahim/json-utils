@@ -1,7 +1,5 @@
 package com.tomahim.jsonUtils.api;
 
-import java.util.List;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -18,11 +16,14 @@ public class JavaObjectInstanciationTest {
 		
 		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
 		String name = "Toto";
+		Integer id = 1;
+		jsonBuilder.add("id", id);
 		jsonBuilder.add("name", name);
 		JsonObject jsonObject = jsonBuilder.build();
 		Person person = (Person) JsonUtils.create(Person.class, jsonObject);
 		assertNotNull(person);
 		assertEquals(name, person.getName());
+		assertEquals(id, person.getId());
 	}
 
 }
