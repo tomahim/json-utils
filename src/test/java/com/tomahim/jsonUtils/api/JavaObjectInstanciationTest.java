@@ -63,6 +63,7 @@ public class JavaObjectInstanciationTest {
 		assertEquals(nbSisters, person.getNbSisters());
 		
 		assertNotNull(person.getMother());
+		assertEquals(motherName, person.getMother().getName());
 	}
 
 }

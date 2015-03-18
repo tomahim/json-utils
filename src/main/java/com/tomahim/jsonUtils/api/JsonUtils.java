@@ -177,18 +177,20 @@ public final class JsonUtils {
 					e.printStackTrace();
 				}
 				if(setter != null && classTypeMember != null) {
+					Object objectParam = null;
 					if(!ReflectUtil.isPrimiveObject(classTypeMember)) {
-						create(classTypeMember, jsonObject.getJsonObject(key));
+						objectParam = create(classTypeMember, jsonObject.getJsonObject(key));
 					} else {
-						try {
-							setter.invoke(obj, getJavaObjectValueFromJsonValue(jsonObject, key, classTypeMember));
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						objectParam = getJavaObjectValueFromJsonValue(jsonObject, key, classTypeMember);
+					}
+					try {
+						setter.invoke(obj, objectParam);
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
