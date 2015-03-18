@@ -75,6 +75,30 @@ public final class ReflectUtil {
 		}
 		return list;
 	}
+	
+	private static String getMemberNameFromGetterName(String getterName) {
+		String attributeName = getterName.substring(3, getterName.length());
+		return attributeName.substring(0, 1).toLowerCase() + attributeName.substring(1, attributeName.length());
+	}
+	
+	public static Class getReturnTypeFromGetter(Class classType, String memberName) {
+		ArrayList<Method> list = new ArrayList<Method>();
+		Method[] methods = classType.getDeclaredMethods();
+		for (Method method : methods) {
+			String searchName = getMemberNameFromGetterName(method.getName());
+			if (isGetter(method) && searchName.equals(memberName)) {
+				return method.getReturnType();
+			}
+		}
+		// Include also getters of super class
+		for (Method method : classType.getSuperclass().getDeclaredMethods()) {
+			String searchName = getMemberNameFromGetterName(method.getName());
+			if (isGetter(method) && searchName.equals(memberName)) {
+				return method.getReturnType();
+			}
+		}
+		return null;
+	}
 
 	public static String getPropertyFromMethod(Method method) {
 		String name = method.getName();

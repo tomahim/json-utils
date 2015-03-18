@@ -2,7 +2,9 @@ package com.tomahim.jsonUtils.api;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,30 +139,11 @@ public final class JsonUtils {
 		return toJsonArrayFromMap(collection, map);
 	}
 		
-	private static Class getClassTypeFromJsonValue(JsonValue jsonValue) {
-		Class classType = null;
-		switch(jsonValue.getValueType()) {
-			case STRING:
-				classType = String.class;
-			break;
-			case NUMBER:
-				classType = Integer.class;
-			break;			
-			case TRUE: 
-			case FALSE:
-				classType = Boolean.class;
-			break;
-			default:
-				classType = String.class;
-			break;
-		}
-		return classType;
-	}
-	
-	private static Object getJavaObjectValueFromJsonValue(JsonObject jsonObject, String key, Class jsonValueClass) {
+	private static Object getJavaObjectValueFromJsonValue(JsonObject jsonObject, String key, Class memberClass) {
 		Object value = null;
-		switch (jsonValueClass.getSimpleName()) {
+		switch (memberClass.getSimpleName()) {
 			case "Integer":
+			case "int":
 				value = jsonObject.getInt(key);
 			break;
 			case "String":
@@ -168,6 +151,10 @@ public final class JsonUtils {
 			break;	
 			case "Boolean":
 				value = jsonObject.getBoolean(key);
+			break;	
+			case "Date":
+				long timestamp = jsonObject.getJsonNumber(key).longValue();
+				value = new Date(timestamp);
 			break;	
 			default:
 				value = jsonObject.getString(key);
@@ -181,23 +168,27 @@ public final class JsonUtils {
 			Object obj = classType.newInstance();
 			for(String key : jsonObject.keySet()) {
 				Method setter = null;
-				Class classTypeValue = null; 
+				Class classTypeMember = null;				
 				try {
-					classTypeValue = getClassTypeFromJsonValue(jsonObject.get(key));
-					setter = ReflectUtil.getSetterByMemberName(classType, key, classTypeValue);
+					classTypeMember = ReflectUtil.getReturnTypeFromGetter(classType, key);
+					setter = ReflectUtil.getSetterByMemberName(classType, key, classTypeMember);
 				} catch (NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if(setter != null && classTypeValue != null) {
-					try {
-						setter.invoke(obj, getJavaObjectValueFromJsonValue(jsonObject, key, classTypeValue));
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				if(setter != null && classTypeMember != null) {
+					if(!ReflectUtil.isPrimiveObject(classTypeMember)) {
+						create(classTypeMember, jsonObject.getJsonObject(key));
+					} else {
+						try {
+							setter.invoke(obj, getJavaObjectValueFromJsonValue(jsonObject, key, classTypeMember));
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}
