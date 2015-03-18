@@ -183,7 +183,7 @@ public final class JsonUtils {
 							objectParam = create(classTypeMember, jsonObject.getJsonObject(key));
 						} else {
 							Collection collection = instanciateArrayOrSet(classTypeMember);
-							collection.add(create(classTypeMember, jsonObject))
+							collection.add(create(classTypeMember, jsonObject));
 							objectParam = collection;
 						}
 					} else {
