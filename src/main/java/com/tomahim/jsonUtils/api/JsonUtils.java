@@ -2,11 +2,9 @@ package com.tomahim.jsonUtils.api;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,8 +12,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 
 import com.tomahim.jsonUtils.builders.JsonCompute;
 import com.tomahim.jsonUtils.builders.JsonNode;
@@ -23,7 +19,6 @@ import com.tomahim.jsonUtils.builders.JsonTreeBuilder;
 import com.tomahim.jsonUtils.common.ReflectUtil;
 import com.tomahim.jsonUtils.configuration.JsonUtilsSettings;
 import com.tomahim.jsonUtils.configuration.SettingsEnum;
-import com.tomahim.jsonUtils.entities.Person;
 
 /* API Definition */
 public final class JsonUtils {
