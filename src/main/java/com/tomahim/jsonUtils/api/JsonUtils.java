@@ -1,7 +1,10 @@
 package com.tomahim.jsonUtils.api;
 
+import java.awt.List;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -163,9 +166,11 @@ public final class JsonUtils {
 			Object obj = classType.newInstance();
 			for(String key : jsonObject.keySet()) {
 				Method setter = null;
+				Method getter = null;
 				Class classTypeMember = null;				
 				try {
-					classTypeMember = ReflectUtil.getReturnTypeFromGetter(classType, key);
+					getter = ReflectUtil.getGetterByMemberName(classType, key);
+					classTypeMember = getter.getReturnType();
 					setter = ReflectUtil.getSetterByMemberName(classType, key, classTypeMember);
 				} catch (NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -174,7 +179,13 @@ public final class JsonUtils {
 				if(setter != null && classTypeMember != null) {
 					Object objectParam = null;
 					if(!ReflectUtil.isPrimiveObject(classTypeMember)) {
-						objectParam = create(classTypeMember, jsonObject.getJsonObject(key));
+						if(!ReflectUtil.multipleObjectsReturned(getter)) {
+							objectParam = create(classTypeMember, jsonObject.getJsonObject(key));
+						} else {
+							Collection collection = instanciateArrayOrSet(classTypeMember);
+							collection.add(create(classTypeMember, jsonObject))
+							objectParam = collection;
+						}
 					} else {
 						objectParam = getJavaObjectValueFromJsonValue(jsonObject, key, classTypeMember);
 					}
@@ -198,5 +209,15 @@ public final class JsonUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static Collection instanciateArrayOrSet(Class classTypeMember) {
+		Type[] types = classTypeMember.getGenericInterfaces();		
+		Collection collection = null;
+		Class genericType = types[0].getClass();
+		if(classTypeMember.getSimpleName().equals("List")) {
+			collection = new ArrayList();
+		}
+		return collection;
 	}
 }

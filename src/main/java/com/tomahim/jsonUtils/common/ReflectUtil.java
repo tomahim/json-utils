@@ -23,6 +23,16 @@ public final class ReflectUtil {
 		return WRAPPER_TYPES.contains(clazz);
 	}
 
+	public static boolean needRecusivity(Method m) {
+		Class<?> returnType = m.getReturnType();
+		return !ReflectUtil.isPrimiveObject(returnType);
+	}
+	
+	public static boolean multipleObjectsReturned(Method m) {
+		Class<?> returnType = m.getReturnType();
+		return returnType.equals(List.class) || returnType.equals(Set.class);
+	}
+
 	private static Set<Class<? extends Object>> getWrapperTypes() {
 		Set<Class<? extends Object>> ret = new HashSet<Class<? extends Object>>();
 		ret.add(Boolean.class);
@@ -77,24 +87,28 @@ public final class ReflectUtil {
 	}
 	
 	private static String getMemberNameFromGetterName(String getterName) {
-		String attributeName = getterName.substring(3, getterName.length());
-		return attributeName.substring(0, 1).toLowerCase() + attributeName.substring(1, attributeName.length());
+		if(getterName.length() > 3) {
+			String attributeName = getterName.substring(3, getterName.length());
+			return attributeName.substring(0, 1).toLowerCase() + attributeName.substring(1, attributeName.length());
+		} else {
+			return "";
+		}
 	}
 	
-	public static Class getReturnTypeFromGetter(Class classType, String memberName) {
+	public static Method getGetterByMemberName(Class classType, String memberName) {
 		ArrayList<Method> list = new ArrayList<Method>();
 		Method[] methods = classType.getDeclaredMethods();
 		for (Method method : methods) {
 			String searchName = getMemberNameFromGetterName(method.getName());
 			if (isGetter(method) && searchName.equals(memberName)) {
-				return method.getReturnType();
+				return method;
 			}
 		}
 		// Include also getters of super class
 		for (Method method : classType.getSuperclass().getDeclaredMethods()) {
 			String searchName = getMemberNameFromGetterName(method.getName());
 			if (isGetter(method) && searchName.equals(memberName)) {
-				return method.getReturnType();
+				return method;
 			}
 		}
 		return null;
@@ -124,7 +138,12 @@ public final class ReflectUtil {
 	}	
 	
 	public static Method getSetterByMemberName(Class classType, String name, Class jsonValueClass) throws NoSuchMethodException, SecurityException {
-		String setterName = "set"+name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+		String setterName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
 		return classType.getMethod(setterName, jsonValueClass);
+	}
+	
+	public static Method getGetterByMemberName(Class classType, String name, Class jsonValueClass) throws NoSuchMethodException, SecurityException {
+		String getterName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+		return classType.getMethod(getterName, jsonValueClass);
 	}
 }

@@ -31,16 +31,6 @@ public final class JsonCompute {
 		return ReflectUtil.getPropertyFromMethod(m);
 	}
 	
-	private static boolean needRecusivity(Method m) {
-		Class<?> returnType = m.getReturnType();
-		return !ReflectUtil.isPrimiveObject(returnType);
-	}
-	
-	private static boolean multipleObjectsReturned(Method m) {
-		Class<?> returnType = m.getReturnType();
-		return returnType.equals(List.class) || returnType.equals(Set.class);
-	}
-	
 	private static void addKeyValue(JsonObjectBuilder jsonObjectBuilder, Object o, String name, Method method) throws IllegalAccessException, InvocationTargetException {
 		String returnTypeName = method.getReturnType().getSimpleName();
 		switch (returnTypeName) {
@@ -104,11 +94,11 @@ public final class JsonCompute {
 	
 	private static void addToJsonBuilderMethod(JsonObjectBuilder jsonBuilder, Object o, Method method, int maxDepth, String propertyName) throws IllegalAccessException, InvocationTargetException {		
 		String property = propertyName != null ? propertyName : computeAttributeNameFromMethod(method);
-		if(!needRecusivity(method)) {
+		if(!ReflectUtil.needRecusivity(method)) {
 			addKeyValue(jsonBuilder, o, property, method);
 		} else if(maxDepth > 0) {
 			//Avoiding insecure StackOverlow!
-			if(multipleObjectsReturned(method)) {
+			if(ReflectUtil.multipleObjectsReturned(method)) {
 				jsonBuilder.add(property, getJsonArrayBuilderFomJavaList((Collection<?>) method.invoke(o), maxDepth - 1));
 			} else {
 				jsonBuilder.add(property, getJsonObjectBuilderFromJavaObject(method.invoke(o), maxDepth - 1));					
@@ -165,14 +155,14 @@ public final class JsonCompute {
 					continue;
 				}
 				String nextValue = StringUtil.getNextValue(valuePath);
-				if(!multipleObjectsReturned(method)) { //Simple object to parse
+				if(!ReflectUtil.multipleObjectsReturned(method)) { //Simple object to parse
 					resolveValuePath(jsonBuilder, method.invoke(object), key, nextValue);
 				} else {  //Collection of objects
 					jsonBuilder.add(key, resolveArrayValuePath(null, (Collection<?>) method.invoke(object), key, nextValue));
 				}
 			} else {
 				if(propertyName.equals(valuePath)) {
-					addToJsonBuilderMethod(jsonBuilder, object, method, multipleObjectsReturned(method) || !ReflectUtil.isPrimiveObject(method.getReturnType()) ? 1 : 0, key);					
+					addToJsonBuilderMethod(jsonBuilder, object, method, ReflectUtil.multipleObjectsReturned(method) || !ReflectUtil.isPrimiveObject(method.getReturnType()) ? 1 : 0, key);					
 				}				
 			}			
 		}

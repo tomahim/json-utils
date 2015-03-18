@@ -3,6 +3,7 @@ package com.tomahim.jsonUtils.api;
 import java.util.Date;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
@@ -36,6 +37,7 @@ public class JavaObjectInstanciationTest {
 		
 		JsonObjectBuilder jsonBuilderP1 = Json.createObjectBuilder();
 		JsonObjectBuilder jsonBuilderP2 = Json.createObjectBuilder();
+		JsonArrayBuilder jsonArrayFriends = Json.createArrayBuilder();
 
 		jsonBuilderP2.add("name", motherName);
 		
@@ -47,6 +49,10 @@ public class JavaObjectInstanciationTest {
 		jsonBuilderP1.add("birthDate", birthDate.getTime());
 		jsonBuilderP1.add("nbSisters", nbSisters);		
 		jsonBuilderP1.add("mother", p2);		
+
+		jsonArrayFriends.add(p2);
+		
+		jsonBuilderP1.add("friends", jsonArrayFriends.build());
 		
 		p1 = jsonBuilderP1.build();
 	}
@@ -64,6 +70,9 @@ public class JavaObjectInstanciationTest {
 		
 		assertNotNull(person.getMother());
 		assertEquals(motherName, person.getMother().getName());
+		
+		assertNotNull(person.getFriends());
+		assertEquals(1, person.getFriends().size());
 	}
 
 }
